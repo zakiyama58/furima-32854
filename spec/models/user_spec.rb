@@ -45,9 +45,17 @@ require 'rails_helper'
         @user.valid?
         expect(@user.errors.full_messages).to include "Password is too short (minimum is 6 characters)"
       end
-      it "passwordが半角英数字混合でない" do
+      it "passwordが半角英数字混合でない(全角)" do
         @user.password = "１２３４５６"
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
+      end
+      it "passwordが半角英数字混合でない(数字のみ)" do
         @user.password = "123456"
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
+      end
+      it "passwordが半角英数字混合でない(英字のみ)" do
         @user.password = "abcdef"
         @user.valid?
         expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
