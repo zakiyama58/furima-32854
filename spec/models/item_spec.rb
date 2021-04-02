@@ -78,8 +78,12 @@ require 'rails_helper'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
-      it "priceが¥300~¥9,999,999の間ではない" do
+      it "priceが¥299以下ではない" do
         @item.price = 299
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
+      end
+      it "priceが¥10,000,000ではない" do
         @item.price = 10_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
