@@ -5,9 +5,8 @@ function price (){
 
   itemPrice.addEventListener("keyup", () => {
     const inputValue = itemPrice.value;
-    console.log(inputValue);
     addTaxPrice.innerHTML = (Math.floor(inputValue * 0.1));
-    profit.innerHTML = (Math.floor(inputValue * 0.9));
+    profit.innerHTML = (Math.ceil(inputValue * 0.9));
   })
 }
 

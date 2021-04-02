@@ -1,6 +1,6 @@
 require 'rails_helper'
 
- RSpec.describe Item, type: :model do
+RSpec.describe Item, type: :model do
   before do
     @item = FactoryBot.build(:item)
     @item.image = fixture_file_upload('public/images/test_image.png')
@@ -83,7 +83,7 @@ require 'rails_helper'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
       end
-      it "priceが¥10,000,000ではない" do
+      it "priceが¥10,000,000以上ではない" do
         @item.price = 10_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
@@ -94,14 +94,20 @@ require 'rails_helper'
         expect(@item.errors.full_messages).to include("Price is not a number")
       end
       it "priceが数字のみではない" do
-        
+        @item.price = '111aaa'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not a number")
       end
       it "imageが存在しない" do
         @item.image = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Image can't be blank")
       end
-
+      it "userが存在しない" do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
       end
     end
- end
+  end
+end
