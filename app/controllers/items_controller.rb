@@ -1,4 +1,8 @@
 class ItemsController < ApplicationController
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :authenticate_user!, except: [:index]
+  before_action :move_to_index, except: [:index]
+
   def index
     @items = Item.order("created_at DESC")
   end
@@ -19,8 +23,13 @@ class ItemsController < ApplicationController
   private
 
   def items_params
-    params.require(:items).permit(:name, :description, :price,:category_id,:condition_id,:delivery_charge_id, :area_id, :days_to_ship_id,:image).merge(user_id: current_user.id)
+    params.require(:item).permit(:name, :description, :price,:category_id,:condition_id,:delivery_charge_id, :area_id, :days_to_ship_id,:image).merge(user_id: current_user.id)
   end
 
-  
+end
+
+def move_to_index
+  unless user_signed_in?
+    redirect_to action: :index
+  end
 end

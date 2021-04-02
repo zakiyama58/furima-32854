@@ -2,7 +2,8 @@ class Item < ApplicationRecord
   with_options presence: true do
     validates :name
     validates :description
-    validates :price
+    validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 } 
+    validates :image
   end
   
   belongs_to :user
@@ -18,10 +19,10 @@ class Item < ApplicationRecord
     validates :days_to_ship_id
   end
 
-  belongs_to :category_id
-  belongs_to :condition_id
-  belongs_to :delivery_charge_id
-  belongs_to :area_id
-  belongs_to :days_to_ship_id
+  belongs_to :category
+  belongs_to :condition
+  belongs_to :delivery_charge
+  belongs_to :area
+  belongs_to :days_to_ship
 
 end
