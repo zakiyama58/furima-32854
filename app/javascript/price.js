@@ -7,7 +7,7 @@ function price (){
     const inputValue = itemPrice.value;
     addTaxPrice.innerHTML = (Math.floor(inputValue * 0.1));
     profit.innerHTML = (Math.ceil(inputValue * 0.9));
-  })
+  });
 }
 
 window.addEventListener('load', price);
